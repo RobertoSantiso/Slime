@@ -9,12 +9,14 @@ public class Slime : MonoBehaviour
     [SerializeField] Sprite[] frameArrayMF;
     [SerializeField] Sprite[] frameArrayMA;
     Rigidbody2D rb;
-    public int velocidad;
-    public int velocidadDiagonal;
+    public float velocidad;
+    public float velocidadDiagonal;
     bool moviendose;
     bool miraIz;
     bool miraDer;
     bool miraFrente;
+    List<bool> movimientosAnteriores;
+    List<bool> movimientosActuales;
     float timer;
     float framerate = .2f;
     int currentFrame;
@@ -32,27 +34,31 @@ public class Slime : MonoBehaviour
     Sprite LadoAtras;
     Sprite LadoMA1;
     Sprite LadoMA2;
+    Animator animador;
     void Awake()
     {
-        LadoIz = Resources.Load<Sprite>("slimeLadoIz");
-        LadoDer = Resources.Load<Sprite>("slimeLadoDer");
-        LadoMI1 = Resources.Load<Sprite>("slimeLadoIM1");
-        LadoMI2 = Resources.Load<Sprite>("slimeLadoIM2");
-        LadoMD1 = Resources.Load<Sprite>("slimeLadoDM1");
-        LadoMD2 = Resources.Load<Sprite>("slimeLadoDM2");
-        LadoF = Resources.Load<Sprite>("slime");
-        LadoF2 = Resources.Load<Sprite>("slime2");
-        LadoAtras = Resources.Load<Sprite>("slimeAtras");
-        LadoMA1 = Resources.Load<Sprite>("slimeMA1");
-        LadoMA2 = Resources.Load<Sprite>("slimeMA2");
+        LadoIz = Resources.Load<Sprite>("slimeI");
+        LadoDer = Resources.Load<Sprite>("slimeD");
+        LadoMI1 = Resources.Load<Sprite>("slimeIM1");
+        LadoMI2 = Resources.Load<Sprite>("slimeIM2");
+        LadoMD1 = Resources.Load<Sprite>("slimeDM1");
+        LadoMD2 = Resources.Load<Sprite>("slimeDM2");
+        LadoF = Resources.Load<Sprite>("slimeF");
+        LadoF2 = Resources.Load<Sprite>("slimeF2");
+        LadoAtras = Resources.Load<Sprite>("slimeA");
+        LadoMA1 = Resources.Load<Sprite>("slimeAM1");
+        LadoMA2 = Resources.Load<Sprite>("slimeAM2");
+        animador = GetComponent<Animator>();
         frameArrayMI = new Sprite[] { LadoMI1, LadoMI2 };
         frameArrayMD = new Sprite[] { LadoMD1, LadoMD2 };
         frameArrayMF = new Sprite[] { LadoF, LadoF2 };
         frameArrayMA = new Sprite[] { LadoMA1, LadoMA2 };
+        movimientosAnteriores = new List<bool>();
+        movimientosActuales = new List<bool>();
         thisSprite = gameObject.GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
-        velocidad = 100;
-        velocidadDiagonal = 70;
+        velocidad = 70;
+        velocidadDiagonal = velocidad* 0.7f;
         moviendose = false;
         miraFrente = true;
     }
@@ -81,85 +87,77 @@ public class Slime : MonoBehaviour
     void Update()
     {
         moviendose = false;
+        if (Input.anyKey)
+        {
+            moviendose = true;
+            miraIz = false;
+            miraDer = false;
+            miraFrente = false;
+        }
         if (Input.GetKey("a"))
         {
             rb.velocity = new Vector2(-velocidad, 0)*Time.deltaTime;
-            moviendose = true;
             miraIz = true;
-            miraDer = false;
-            miraFrente = false;
+            animador.SetBool("SlimeMI", true);
         }
         if (Input.GetKey("d"))
         {
             rb.velocity = new Vector2(velocidad, -0)*Time.deltaTime;
-            moviendose = true;
-            miraIz = false;
             miraDer = true;
-            miraFrente = false;
+            animador.SetBool("SlimeMD", true);
         }
         if (Input.GetKey("w"))
         {
             rb.velocity = new Vector2(0, velocidad) *Time.deltaTime;
-            moviendose = true;
-            miraIz = false;
-            miraDer = false;
-            miraFrente = false;
+            animador.SetBool("SlimeMA", true);
         }
         if (Input.GetKey("s"))
         {
             rb.velocity = new Vector2(0, -velocidad) *Time.deltaTime;
-            moviendose = true;
-            miraIz = false;
-            miraDer = false;
             miraFrente = true;
+            animador.SetBool("SlimeMF", true);
         }
         if (Input.GetKey("a") && Input.GetKey("w"))
         {
             rb.velocity = new Vector2(-velocidadDiagonal, velocidadDiagonal) * Time.deltaTime;
-            moviendose = true;
             miraIz = true;
-            miraDer = false;
-            miraFrente = false;
         }
         if (Input.GetKey("d") && Input.GetKey("w"))
         {
             rb.velocity = new Vector2(velocidadDiagonal, velocidadDiagonal) * Time.deltaTime;
-            moviendose = true;
-            miraIz = false;
             miraDer = true;
-            miraFrente = false;
         }
         if (Input.GetKey("a") && Input.GetKey("s"))
         {
             rb.velocity = new Vector2(-velocidadDiagonal, -velocidadDiagonal) * Time.deltaTime;
-            moviendose = true;
             miraIz = true;
-            miraDer = false;
-            miraFrente = false;
         }
         if (Input.GetKey("d") && Input.GetKey("s"))
         {
             rb.velocity = new Vector2(velocidadDiagonal, -velocidadDiagonal) * Time.deltaTime;
-            moviendose = true;
-            miraIz = false;
             miraDer = true;
-            miraFrente = false;
         }
         if (moviendose == false)
         {
             rb.velocity = new Vector2(0, 0);
-            if (miraIz == true)
-                thisSprite.sprite = LadoIz;
-            else if (miraDer == true)
-                thisSprite.sprite = LadoDer;
-            else if (miraFrente == true)
-                thisSprite.sprite = LadoF;
-            else
-                thisSprite.sprite = LadoAtras;
+            animador.SetBool("SlimeMI", false);
+            animador.SetBool("SlimeMD", false);
+            animador.SetBool("SlimeMA", false);
+            animador.SetBool("SlimeMF", false);
+
+            //if (miraIz == true)
+            //    thisSprite.sprite = LadoIz;
+            //else if (miraDer == true)
+            //    thisSprite.sprite = LadoDer;
+            //else if (miraFrente == true)
+            //    thisSprite.sprite = LadoF;
+            //else
+            //    thisSprite.sprite = LadoAtras;
         }
-        else
-        {
-            Animacion();
-        }
+        //else
+        //{
+        //    Animacion();
+        //}
+        print(animador.GetBool("isAnimating"));
     }
 }
