@@ -63,43 +63,35 @@ public class Slime : MonoBehaviour
         miraFrente = true;
     }
 
-    void Animacion()
-    {
-        
-        var frameArray = frameArrayMD;
-
-        if (miraIz || miraDer)
-        {
-            frameArray = miraIz ? frameArrayMI : frameArrayMD;
-        }
-        else
-        {
-            frameArray = miraFrente ? frameArrayMF : frameArrayMA;
-        }
-        timer += Time.deltaTime;
-        if (timer >= framerate)
-        {
-            timer -= framerate;
-            currentFrame = (currentFrame + 1) % frameArray.Length;
-            thisSprite.sprite = frameArray[currentFrame];
-        }
-    }
     void Update()
     {
         moviendose = false;
+        animador.SetBool("SlimeMI", false);
+        animador.SetBool("SlimeMD", false);
+        animador.SetBool("SlimeMA", false);
+        animador.SetBool("SlimeMF", false);
+        animador.SetBool("SlimeMIA", false);
+        animador.SetBool("SlimeMIF", false);
+        animador.SetBool("SlimeMDA", false);
+        animador.SetBool("SlimeMDF", false);
+        animador.SetBool("SlimeIdle", true);
         if (Input.anyKey)
         {
             moviendose = true;
             miraIz = false;
             miraDer = false;
             miraFrente = false;
+            animador.SetBool("SlimeIdle", false);
         }
         if (Input.GetKey("a"))
         {
             rb.velocity = new Vector2(-velocidad, 0)*Time.deltaTime;
             miraIz = true;
             animador.SetBool("SlimeMI", true);
+            thisSprite.flipX = true;
         }
+        else
+            thisSprite.flipX = false;
         if (Input.GetKey("d"))
         {
             rb.velocity = new Vector2(velocidad, -0)*Time.deltaTime;
@@ -113,7 +105,7 @@ public class Slime : MonoBehaviour
         }
         if (Input.GetKey("s"))
         {
-            rb.velocity = new Vector2(0, -velocidad) *Time.deltaTime;
+            rb.velocity = new Vector2(0, -velocidad) * Time.deltaTime;
             miraFrente = true;
             animador.SetBool("SlimeMF", true);
         }
@@ -121,29 +113,31 @@ public class Slime : MonoBehaviour
         {
             rb.velocity = new Vector2(-velocidadDiagonal, velocidadDiagonal) * Time.deltaTime;
             miraIz = true;
+            animador.SetBool("SlimeMIA", true);
         }
         if (Input.GetKey("d") && Input.GetKey("w"))
         {
             rb.velocity = new Vector2(velocidadDiagonal, velocidadDiagonal) * Time.deltaTime;
             miraDer = true;
+            animador.SetBool("SlimeMDA", true);
         }
         if (Input.GetKey("a") && Input.GetKey("s"))
         {
             rb.velocity = new Vector2(-velocidadDiagonal, -velocidadDiagonal) * Time.deltaTime;
             miraIz = true;
+            animador.SetBool("SlimeMIF", true);
         }
         if (Input.GetKey("d") && Input.GetKey("s"))
         {
             rb.velocity = new Vector2(velocidadDiagonal, -velocidadDiagonal) * Time.deltaTime;
             miraDer = true;
+            animador.SetBool("SlimeMDF", true);
         }
         if (moviendose == false)
         {
             rb.velocity = new Vector2(0, 0);
-            animador.SetBool("SlimeMI", false);
-            animador.SetBool("SlimeMD", false);
-            animador.SetBool("SlimeMA", false);
-            animador.SetBool("SlimeMF", false);
+            
+            animador.SetBool("SlimeIdle", true);
 
             //if (miraIz == true)
             //    thisSprite.sprite = LadoIz;
@@ -154,10 +148,5 @@ public class Slime : MonoBehaviour
             //else
             //    thisSprite.sprite = LadoAtras;
         }
-        //else
-        //{
-        //    Animacion();
-        //}
-        print(animador.GetBool("isAnimating"));
     }
 }
