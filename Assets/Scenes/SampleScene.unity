@@ -5966,10 +5966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc82df91bbbf84a4e911bba1e327b888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameArrayMI: []
-  frameArrayMD: []
-  frameArrayMF: []
-  frameArrayMA: []
   velocidad: 0
   velocidadDiagonal: 0
 --- !u!50 &1346314161
