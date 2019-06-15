@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle
+  m_Name: SlimeIdleA
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,16 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 8032762084183160025, guid: 9d4a7888c5d4f3947bbeb0863ca49c43,
+      value: {fileID: -3683522153319478219, guid: b5734f880d9af034fab246e431596369,
         type: 3}
     - time: 0.33333334
-      value: {fileID: -3798993553626191022, guid: 9d4a7888c5d4f3947bbeb0863ca49c43,
+      value: {fileID: -9043239022787290012, guid: b5734f880d9af034fab246e431596369,
         type: 3}
     - time: 0.6666667
-      value: {fileID: 5005153171878204371, guid: 9d4a7888c5d4f3947bbeb0863ca49c43,
-        type: 3}
-    - time: 1
-      value: {fileID: -3798993553626191022, guid: 9d4a7888c5d4f3947bbeb0863ca49c43,
+      value: {fileID: -2591079782670041221, guid: b5734f880d9af034fab246e431596369,
         type: 3}
     attribute: m_Sprite
     path: 
@@ -50,19 +47,18 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 8032762084183160025, guid: 9d4a7888c5d4f3947bbeb0863ca49c43, type: 3}
-    - {fileID: -3798993553626191022, guid: 9d4a7888c5d4f3947bbeb0863ca49c43, type: 3}
-    - {fileID: 5005153171878204371, guid: 9d4a7888c5d4f3947bbeb0863ca49c43, type: 3}
-    - {fileID: -3798993553626191022, guid: 9d4a7888c5d4f3947bbeb0863ca49c43, type: 3}
+    - {fileID: -3683522153319478219, guid: b5734f880d9af034fab246e431596369, type: 3}
+    - {fileID: -9043239022787290012, guid: b5734f880d9af034fab246e431596369, type: 3}
+    - {fileID: -2591079782670041221, guid: b5734f880d9af034fab246e431596369, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.3333334
+    m_StopTime: 1
     m_OrientationOffsetY: 0
     m_Level: 0
-    m_CycleOffset: 0.56
+    m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
     m_LoopTime: 1
     m_LoopBlend: 0
